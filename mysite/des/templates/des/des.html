@@ -267,16 +267,16 @@
 <script>
     
 
-    var input = document.getElementById("mode_encrypt");
+    var encrypt = document.getElementById("mode_encrypt");
 
     // Thêm sự kiện cho đối tượng
-    if (input.value == "ECB") {
+    if (encrypt.value == "ECB") {
         $("#labeloption").hide();
         $("#inputoption").hide();
     }
 
-    input.addEventListener("change", function () {
-        if (input.value == "ECB") {
+    encrypt.addEventListener("change", function () {
+        if (encrypt.value == "ECB") {
             $("#labeloption").hide();
             $("#inputoption").hide();
         }
