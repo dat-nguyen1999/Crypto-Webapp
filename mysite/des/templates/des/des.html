@@ -66,7 +66,7 @@
                     <div class="form-group">
                         <label for="mode">Mode</label>
                         <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode_encrypt"
-                            id="mode_encrypt" >
+                            id="mode_encrypt">
                             <option value="ECB" selected="">ECB</option>
                             <option value="CBC">CBC</option>
                             <option value="CFB">CFB</option>
@@ -76,41 +76,12 @@
                     </div>
 
 
-                    <div class="" ng-show="mode_encrypt == 'ECB'" >
-                        <label for="encryptivinput" id = "labeloption">Enter IV (Optional)</label>
+                    <div class="" ng-show="mode_encrypt == 'ECB'">
+                        <label for="encryptivinput" id="labeloption">Enter IV (Optional)</label>
                         <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="inputoption"
                             ng-model="encryptiv" placeholder="Enter initialization vector" name="encryptivinput">
                     </div>
 
-                    <script>
-                        var input = document.getElementById("mode_encrypt");
-             
-                        // Thêm sự kiện cho đối tượng
-                    
-
-                        input.addEventListener("change", function() {
-                            if(input.value == "ECB")
-                            {
-                                hideoptions();
-                            }
-                            else{
-                                showoptions();
-                            }
-                                
-                        });
-
-                        function showoptions() {
-                            $("#labeloption").show();
-                            $("#inputoption").show();
-
-                        }
-                        function hideoptions() {
-                            $("#labeloption").hide();
-                            $("#inputoption").hide();
-                        }
-
-
-                    </script>
 
                     <!-- <div class="form-group ng-hide" ng-show="showEncryptIV">
                         <label for="encryptivinput">Enter IV (Optional)</label>
@@ -141,20 +112,23 @@
                     <div class="form-group">
                         <label for="mode">Mode</label>
                         <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
-                            id="mode" ng-change="encryptModeSelected()">
+                            id="mode_decrypt" ng-change="encryptModeSelected()">
                             <option value="ECB" selected="">ECB</option>
                             <option value="CBC">CBC</option>
-                            <option value="CBC">CFB</option>
-                            <option value="CBC">OFB</option>
+                            <option value="CFB">CFB</option>
+                            <option value="OFB">OFB</option>
                         </select>
                     </div>
+
+                    
                     <div class="form-group ng-hide" ng-show="showDecryptIV">
-                        <label for="decryptivinput">Enter IV Used During
+                        <label for="decryptivinput" id="decryptivlabel">Enter IV Used During
                             Encryption(Optional)</label>
                         <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="decryptivinput"
                             ng-model="decryptiv" placeholder="Enter initialization vector" name="decryptiv">
                     </div>
 
+                    
                     <div class="form-group">
                         <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
                         </button>
@@ -287,7 +261,55 @@
 </div>
 
 <script src="{% static './js/aesencryption.min.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="{% static './js/custom.js' %}"></script>
 <link rel="stylesheet" href="{% static './css/custom.css' %}">
+
+
+<script>
+    
+
+    var input = document.getElementById("mode_encrypt");
+
+    // Thêm sự kiện cho đối tượng
+    if (input.value == "ECB") {
+        $("#labeloption").hide();
+        $("#inputoption").hide();
+    }
+
+    input.addEventListener("change", function () {
+        if (input.value == "ECB") {
+            $("#labeloption").hide();
+            $("#inputoption").hide();
+        }
+        else {
+            $("#labeloption").show();
+            $("#inputoption").show();
+        }
+
+    });
+</script>
+
+<script>
+    var input = document.getElementById("mode_decrypt");
+
+    // Thêm sự kiện cho đối tượng
+    if (input.value == "ECB") {
+        $("#decryptivinput").hide();
+        $("#decryptivlabel").hide();
+    }
+
+    input.addEventListener("change", function () {
+        if (input.value == "ECB") {
+            $("#decryptivinput").hide();
+            $("#decryptivlabel").hide();
+        }
+        else {
+            $("#decryptivinput").show();
+            $("#decryptivlabel").show();
+        }
+
+    });
+
+</script>
+
+
 {% endblock container %}
