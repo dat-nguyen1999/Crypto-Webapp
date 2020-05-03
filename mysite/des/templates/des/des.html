@@ -1,1 +1,293 @@
 {% extends "index.html" %}
+{% load static %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{%static './image/logo.jfif'%}" width="30" height="30" alt="">
+        Crypto
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link active" style="color: red;" href="{% url 'des' %}"><b>DES</b> </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="/aes">AES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="/rsa">RSA</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block container %}
+
+<div class="row gap-y">
+    <div class="col-md-9 col-sm-12 col-12">
+
+        <div class="row text-center">
+            <h1>DES Encryption and Decryption Online Tool(Calculator)</h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form role="form" class="ng-pristine ng-valid">
+                    <h2>DES Online Encryption </h2>
+                    <div class="form-group">
+                        <label for="inputString">Choose the file to be encrypted:</label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="fileInput">
+                        <label for="inputString">Choose the key: </label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="fileInput">
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="mode">Mode</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="mode" ng-change="encryptModeSelected()">
+                            <option value="ECB" selected="">ECB</option>
+                            <option value="CBC">CBC</option>
+                            <option value="CFB">CFB</option>
+                            <option value="OFB">OFB</option>
+
+                        </select>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="mode">Mode</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode_encrypt"
+                            id="mode_encrypt" >
+                            <option value="ECB" selected="">ECB</option>
+                            <option value="CBC">CBC</option>
+                            <option value="CFB">CFB</option>
+                            <option value="OFB">OFB</option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="" ng-show="mode_encrypt == 'ECB'" >
+                        <label for="encryptivinput" id = "labeloption">Enter IV (Optional)</label>
+                        <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="inputoption"
+                            ng-model="encryptiv" placeholder="Enter initialization vector" name="encryptivinput">
+                    </div>
+
+                    <script>
+                        var input = document.getElementById("mode_encrypt");
+             
+                        // Thêm sự kiện cho đối tượng
+                    
+
+                        input.addEventListener("change", function() {
+                            if(input.value == "ECB")
+                            {
+                                hideoptions();
+                            }
+                            else{
+                                showoptions();
+                            }
+                                
+                        });
+
+                        function showoptions() {
+                            $("#labeloption").show();
+                            $("#inputoption").show();
+
+                        }
+                        function hideoptions() {
+                            $("#labeloption").hide();
+                            $("#inputoption").hide();
+                        }
+
+
+                    </script>
+
+                    <!-- <div class="form-group ng-hide" ng-show="showEncryptIV">
+                        <label for="encryptivinput">Enter IV (Optional)</label>
+                        <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="encryptivinput"
+                            ng-model="encryptiv" placeholder="Enter initialization vector" name="encryptivinput">
+                    </div> -->
+
+                </form>
+                <div class="form-group">
+                    <button class="btn btn-primary" name="hash" value="hash" ng-click="aesEncrypt()">Encrypt
+                    </button>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
+
+                <form role="form" class="ng-pristine ng-valid">
+                    <h2>DES Online Decryption </h2>
+                    <div class="form-group">
+                        <label for="inputString">Choose the file to be decrypted:</label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="fileInput">
+                        <label for="inputString">Choose the key: </label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="fileInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mode">Mode</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="mode" ng-change="encryptModeSelected()">
+                            <option value="ECB" selected="">ECB</option>
+                            <option value="CBC">CBC</option>
+                            <option value="CBC">CFB</option>
+                            <option value="CBC">OFB</option>
+                        </select>
+                    </div>
+                    <div class="form-group ng-hide" ng-show="showDecryptIV">
+                        <label for="decryptivinput">Enter IV Used During
+                            Encryption(Optional)</label>
+                        <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="decryptivinput"
+                            ng-model="decryptiv" placeholder="Enter initialization vector" name="decryptiv">
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
+                        </button>
+                    </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- add-unit-top -->
+
+        <!-- <div class="row">
+            <h2>Usage Guide</h2>
+            <p><strong>
+
+            </strong>
+            </p>
+            <p>For encryption, you can either enter the plain text, password, an image file or a
+                .txt
+                file that you want to encrypt. Now choose the block cipher mode of encryption.
+                ECB(Electronic Code Book) is the simplest encryption mode and does not require IV
+                for encryption. The input plain text will be divided into blocks and each block will
+                be
+                encrypted with the key provided and hence identical plain text blocks are encrypted
+                into
+                identical cipher text blocks. CBC mode is
+                highly recommended and it requires IV to make each message unique. If no IV is
+                entered
+                then default will be used here for CBC mode and that defaults to a zero based
+                byte[16].</p>
+            <p>The AES algorithm has a 128-bit block size, regardless of whether you key length is
+                256, 192 or 128 bits. When a symmetric cipher mode requires an IV, the length of the
+                IV must
+                be equal to the block size of the cipher. Hence, you must always use an IV of 128
+                bits (16
+                bytes) with AES.</p>
+            <p>AES provides 128 bit, 192 bit and 256 bit of secret key size for
+                encryption. Things to remember here is if you are selecting
+                128 bits for encryption, then the secret key must be of 16 bits long and 24 and 32
+                bits for
+                192 and 256 bits of key size. Now you can enter the secret key
+                accordingly. By default, the encrypted text will be <a
+                    href="https://www.devglan.com/online-tools/base64-encode-decode">base64
+                    encoded</a>
+                but you have options to select the output format as HEX too.</p>
+            <p>Similarly, for image and .txt file the encrypted form will be Base64 encoded.</p>
+            <p>Below is a screenshot that shows a sample usage of this online AES encryption tool.
+            </p>
+            <img src="https://i.imgur.com/VbralpB.png" data-src="https://i.imgur.com/VbralpB.png"
+                title="aes-online-encryption-sample-screenshot" alt="aes-online-encryption-sample-screenshot"
+                class="img-responsive">
+            <p>AES decryption has also the same process. By default it assumes the entered text be
+                in
+                Base64. The input can be Base64 encoded or Hex encoded image and .txt file too. And
+                the
+                final
+                decrypted output will be Base64 string. If the intended output is a plain-text then,
+                it
+                can be decoded to plain-text in-place.</p>
+            <p>But if the intended output is an image or .txt file then you can use <a
+                    href="https://codebeautify.org/base64-to-image-converter" rel="nofollow">this
+                    tool</a> to convert the base64 encoded output to an image.</p>
+        </div> -->
+
+        <!-- <div class="row">
+            <ul class="free-list">
+                <li>References</li>
+                <li><a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard" target="_blank"
+                        rel="nofollow">AES wiki</a></li>
+                <li>
+                    <a href="http://searchsecurity.techtarget.com/definition/Advanced-Encryption-Standard"
+                        target="_blank" rel="nofollow">AES Encryption</a></li>
+                <li>
+                    <a href="https://stackoverflow.com/questions/13467343/want-to-use-aes-256-cbc-with-32-bytes-but-it-shows-java-security-invalidalgorith"
+                        target="_blank" rel="nofollow">AES IV</a></li>
+            </ul>
+        </div> -->
+
+        <div class="clearfix"></div>
+    </div>
+    <div class="col-md-3 col-sm-12 col-12 row-off">
+        <div class="mb-9">
+            <h3 class="h5 mb-4 text-primary">Other Free Tools</h3>
+            <ul class="list-group">
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/rsa-encryption-decryption">Online RSA Encrypt
+                        Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/bcrypt-hash-generator">Online Bcrypt Hashing</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/triple-des-encrypt-decrypt">Online DES Encrypt
+                        Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/jasypt-online-encryption-decryption">Jasypt
+                        Online
+                        Encrypt Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/aes-encryption-decryption">AES Online Encrypt
+                        Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/hmac-sha256-online">HMAC-SHA256 Online Tool</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/base64-encode-decode">Online
+                        Base64 Encoder Decoder</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/xml-json-xml-conversion">Online Xml to Json
+                        Converter</a>
+                </li>
+            </ul>
+            <div class="google_ad hidden-sm-down" style="position: static; width: auto; top: 100px;">
+                <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- ad-unit-right -->
+                <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px"
+                    data-ad-client="ca-pub-2256439533750580" data-ad-slot="5806293478"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static './js/aesencryption.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="{% static './js/custom.js' %}"></script>
+<link rel="stylesheet" href="{% static './css/custom.css' %}">
+{% endblock container %}
