@@ -40,15 +40,16 @@
 
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <form role="form" class="ng-pristine ng-valid">
+                <form action="{% url 'des_encrypt' %}" method="POST" name = "encryptform" id = "encryptform" role="form" class="ng-pristine ng-valid" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <h2>DES Online Encryption </h2>
                     <div class="form-group">
                         <label for="inputString">Choose the file to be encrypted:</label>
                         <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
-                            name="fileInput">
+                            name="fileInput" required="required">
                         <label for="inputString">Choose the key: </label>
-                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
-                            name="fileInput">
+                        <input class="form-control input-lg" id="filekey" type="file" file-model="file"
+                            name="filekey" required="required">
                     </div>
 
                     <!-- <div class="form-group">
@@ -65,8 +66,9 @@
 
                     <div class="form-group">
                         <label for="mode">Mode</label>
-                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode_encrypt"
-                            id="mode_encrypt">
+
+                        <select  name="dropdown" class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode_encrypt"
+                            id="mode_encrypt"  >
                             <option value="ECB" selected="">ECB</option>
                             <option value="CBC">CBC</option>
                             <option value="CFB">CFB</option>
@@ -74,8 +76,13 @@
 
                         </select>
                     </div>
-
-
+                    
+                    <input type="hidden" id = "dropdownip" name = "dropdown" value="ECB"  >
+                    <script>
+                          $('#mode_encrypt').click(function(event){
+                            $('#dropdownip').val($('#mode_encrypt').val());
+                          });
+                    </script>
                     <div class="" ng-show="mode_encrypt == 'ECB'">
                         <label for="encryptivinput" id="labeloption">Enter IV (Optional)</label>
                         <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="inputoption"
@@ -88,25 +95,27 @@
                         <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="encryptivinput"
                             ng-model="encryptiv" placeholder="Enter initialization vector" name="encryptivinput">
                     </div> -->
-
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" id = "submit_encrypt" value="Encrypt">
+                        <!-- <button id="encryptbtn" class="btn btn-primary" name="hash" value="hash" onclick ="validateEncryptForm()">Encrypt
+                        </button> -->
+                    </div>
                 </form>
-                <div class="form-group">
-                    <button class="btn btn-primary" name="hash" value="hash" ng-click="aesEncrypt()">Encrypt
-                    </button>
-                </div>
+                
 
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
 
-                <form role="form" class="ng-pristine ng-valid">
+                <form action="{% url 'des_decrypt' %}" method="POST" role="form" class="ng-pristine ng-valid" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <h2>DES Online Decryption </h2>
                     <div class="form-group">
                         <label for="inputString">Choose the file to be decrypted:</label>
                         <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
-                            name="fileInput">
+                            name="de_fileInput" required="required">
                         <label for="inputString">Choose the key: </label>
                         <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
-                            name="fileInput">
+                            name="de_filekey" required="required">
                     </div>
 
                     <div class="form-group">
@@ -129,10 +138,20 @@
                     </div>
 
                     
+                    <input type="hidden" id = "de_dropdownip" name = "de_dropdown" value="ECB"  >
+
+                    <script>
+                          $('#mode_decrypt').click(function(event){
+                            $('#de_dropdownip').val($('#mode_decrypt').val());
+                          });
+                    </script>
+
                     <div class="form-group">
-                        <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
-                        </button>
+                        <input class="btn btn-primary" type="submit" value="Decrypt">
+                        <!-- <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
+                        </button> -->
                     </div>
+                    </form>
             </div>
         </div>
 
@@ -247,15 +266,7 @@
                         Converter</a>
                 </li>
             </ul>
-            <div class="google_ad hidden-sm-down" style="position: static; width: auto; top: 100px;">
-                <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- ad-unit-right -->
-                <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px"
-                    data-ad-client="ca-pub-2256439533750580" data-ad-slot="5806293478"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -267,7 +278,7 @@
 <script>
     
 
-    var encrypt = document.getElementById("mode_encrypt");
+    let encrypt = document.getElementById("mode_encrypt");
 
     // Thêm sự kiện cho đối tượng
     if (encrypt.value == "ECB") {
@@ -289,16 +300,16 @@
 </script>
 
 <script>
-    var input = document.getElementById("mode_decrypt");
+    let decrypt = document.getElementById("mode_decrypt");
 
     // Thêm sự kiện cho đối tượng
-    if (input.value == "ECB") {
+    if (decrypt.value == "ECB") {
         $("#decryptivinput").hide();
         $("#decryptivlabel").hide();
     }
 
-    input.addEventListener("change", function () {
-        if (input.value == "ECB") {
+    decrypt.addEventListener("change", function () {
+        if (decrypt.value == "ECB") {
             $("#decryptivinput").hide();
             $("#decryptivlabel").hide();
         }
@@ -310,6 +321,30 @@
     });
 
 </script>
+
+<script>
+		
+		function validateEncryptForm() {
+			var fileInput = document.forms["encryptform"]["fileInput"].value;
+			var filekey = document.forms["encryptform"]["filekey"].value;
+			
+
+			if (fileInput == "" ) {
+				alert("InputFile fields missing.");
+				return false;
+			}
+			if (filekey == "" ) {
+				alert("KeyFile fields missing.");
+				return false;
+			}
+			return true;
+		}
+		                                   
+	</script>
+
+
+
+
 
 
 {% endblock container %}
