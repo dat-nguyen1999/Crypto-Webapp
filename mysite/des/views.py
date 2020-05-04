@@ -15,12 +15,20 @@ def DES_Encryption(request):
     if request.method == 'POST':
         fileInput = request.FILES['fileInput']
         filekey = request.FILES['filekey']
-       
+        fileIV = request.FILES['ivencryptfile']
+
         mode = request.POST.get('dropdown')
+        
         key = handle_uploaded_file(filekey)
+        if len(key) != 8:
+            return HttpResponse("Length of secret key should be 8 bytes key size!!!")
+        IV = handle_uploaded_file(fileIV)
+        if len(key) != 8:
+            return HttpResponse("Length of IV should be 8 bytes key size!!!")
+
         plaintext = handle_uploaded_file(fileInput)
-    
-        ciphertext = DES._DES_Encryption(key,plaintext,mode)
+
+        ciphertext = DES._DES_Encryption(key,plaintext,mode,IV)
         #print(key)
     
     response  = HttpResponse(ciphertext)
@@ -35,12 +43,20 @@ def DES_DEcryption(request):
     if request.method == 'POST':
         fileInput = request.FILES['de_fileInput']
         filekey = request.FILES['de_filekey']
-       
-        mode = request.POST.get('de_dropdown')
+        fileIV = request.FILES['ivdecryptfile']
+
+        
         key = handle_uploaded_file(filekey)
+
+        if len(key) != 8:
+            return HttpResponse("Length of secret key should be 8 bytes key size!!!")
+        IV = handle_uploaded_file(fileIV)
+        if len(key) != 8:
+            return HttpResponse("Length of IV should be 8 bytes key size!!!")
+        
+        mode = request.POST.get('de_dropdown')
         ciphertext = handle_uploaded_file(fileInput)
-    
-        plaintext = DES._DES_Decryption(key,ciphertext,mode)
+        plaintext = DES._DES_Decryption(key,ciphertext,mode,IV)
         #print(key)
     
     response  = HttpResponse(plaintext)
