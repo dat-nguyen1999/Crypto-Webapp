@@ -1,0 +1,243 @@
+{% extends "index.html" %}
+{% load static %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{%static './image/logo.jfif'%}" width="30" height="30" alt="">
+        Crypto
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'des' %}">DES</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" style="color: red;" href="{% url 'hash' %}"><b>HASH</b></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="/aes">AES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="/rsa">RSA</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block section %}
+
+{% endblock section %}
+
+{% block container %}
+
+<div class="row gap-y">
+    <div class="col-md-9 col-sm-12 col-12">
+
+        <div class="text-center">
+            <h1>Verify integrity of files</h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form action="{% url 'hash_encrypt' %}" method="POST" name="encryptform" id="encryptform" role="form"
+                    class="ng-pristine ng-valid" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Original file </h2>
+                    <div class="form-group">
+                        <label for="inputString">Choose the file to be encrypted:</label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="fileInput" required="required">
+                        <!-- <label for="inputString">Choose the key: </label>
+                        <input class="form-control input-lg" id="filekey" type="file" file-model="file" name="filekey"
+                            required="required"> -->
+                    </div>
+
+
+
+                    <!-- <div class="form-group">
+                        <label for="mode">Algorithm:</label>
+
+                        <select name="dropdown" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                            ng-model="mode_encrypt" id="mode_encrypt">
+                            <option value="MD5" selected="">MD5</option>
+                            <option value="MD2" >MD2</option>
+                            <option value="MD4" >MD4</option>
+                            <option value="SHA-256">SHA-256</option>
+                            <option value="SHA-512">SHA-512</option>
+                            <option value="SHA-384">SHA-384</option>
+
+
+                        </select>
+                    </div>
+
+                    <input type="hidden" id="dropdownip" name="dropdown" value="MD5">
+                    <script>
+                        $('#mode_encrypt').click(function (event) {
+                            $('#dropdownip').val($('#mode_encrypt').val());
+                        });
+                    </script>
+
+
+
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="Encrypt">
+                    </div> -->
+                </form>
+                <!-- <div class="form-group">
+                    <label for="outputString">HASH Encrypted Output:</label>
+                    <textarea readonly id="outputString" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                        rows="3" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+                </div> -->
+
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
+
+                <form action="{% url 'hash_encrypt' %}" method="POST" role="form" class="ng-pristine ng-valid"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Output file after decryption </h2>
+                    <div class="form-group">
+                        <label for="inputString">Choose the file to be encrypted:</label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="de_fileInput" required="required">
+                        <!-- <label for="inputString">Choose the key: </label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="de_filekey" required="required"> -->
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="mode">Algorithm</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="mode_decrypt" ng-change="encryptModeSelected()">
+                            <option value="MD5" selected="">MD5</option>
+                            <option value="MD2" >MD2</option>
+                            <option value="MD4" >MD4</option>
+                            <option value="SHA-256">SHA-256</option>
+                            <option value="SHA-512">SHA-512</option>
+                            <option value="SHA-384">SHA-384</option>
+                        </select>
+                    </div>
+
+
+                    <input type="hidden" id="de_dropdownip" name="de_dropdown" value="MD5">
+
+                    <script>
+                        $('#mode_decrypt').click(function (event) {
+                            $('#de_dropdownip').val($('#mode_decrypt').val());
+                        });
+                    </script>
+
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="Encrypt">
+                    </div> -->
+                </form>
+                <!-- <div class="form-group">
+                    <label for="outputString">HASH Encrypted Output:</label>
+                    <textarea readonly id="outputString" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                        rows="3" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+                </div> -->
+            </div>
+        </div>
+
+
+
+        <div style="text-align: center;margin-left: 25%; margin-right: 25%;">
+            <label for="mode">Algorithm:</label>
+
+            <select name="dropdown" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                ng-model="mode_encrypt" id="mode_encrypt">
+                <option value="MD5" selected="">MD5</option>
+                <option value="MD2">MD2</option>
+                <option value="MD4">MD4</option>
+                <option value="SHA-256">SHA-256</option>
+                <option value="SHA-512">SHA-512</option>
+                <option value="SHA-384">SHA-384</option>
+
+
+            </select>
+        </div>
+
+        <div class="form-group" style="text-align: center;margin-left: 25%; margin-right: 25%; margin-top: 2%;">
+            <input class="btn btn-primary" type="submit" value="Encrypt">
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <label for="outputString">Hash value Original file Output:</label>
+                    <textarea readonly id="outputString" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                        rows="3" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
+                <div class="form-group">
+                    <label for="outputString">Hash value Output file after decryption Output:</label>
+                    <textarea readonly id="outputString" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                        rows="3" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="text-align: center;margin-left: 25%; margin-right: 25%; margin-top: 2%;">
+            <label for="outputString"> Is integrity:</label>
+            <textarea readonly id="outputString" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                rows="1" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="col-md-3 col-sm-11 col-11 row-off">
+        <div class="mb-9">
+            <h3 class="h5 mb-4 text-primary">Other Free Tools</h3>
+            <ul class="list-group">
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/rsa-encryption-decryption">Online RSA Encrypt
+                        Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/bcrypt-hash-generator">Online Bcrypt Hashing</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="{% url 'des' %}">Online DES Encrypt
+                        Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/jasypt-online-encryption-decryption">Jasypt
+                        Online
+                        Encrypt Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/aes-encryption-decryption">AES Online Encrypt
+                        Decrypt</a>
+                </li>
+
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/base64-encode-decode">Online
+                        Base64 Encoder Decoder</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="online-tools/xml-json-xml-conversion">Online Xml to Json
+                        Converter</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="{% static './css/custom.css' %}">
+
+{% endblock container %}

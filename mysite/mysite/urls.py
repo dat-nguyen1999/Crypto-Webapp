@@ -22,4 +22,5 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('', include('homepage.urls')),
     path('des/', include('des.urls')),
+    path('hash/', include('hash.urls')),
 ]
