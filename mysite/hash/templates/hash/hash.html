@@ -17,10 +17,13 @@
                 <a class="nav-link" href="{% url 'des' %}">DES</a>
             </li>
             <li class="nav-item ">
+                <a class="nav-link" href="{% url 'tdes' %}">TDES </a>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link active" style="color: red;" href="{% url 'hash' %}"><b>HASH</b></a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="/aes">AES</a>
+                <a class="nav-link" href="{% url 'aes' %}">AES</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="/rsa">RSA</a>
@@ -129,30 +132,17 @@
                         Decrypt</a>
                 </li>
                 <li class="list-group-item justify-content-between align-items-center">
-                    <a class="text-dark anim-link-2" href="online-tools/bcrypt-hash-generator">Online Bcrypt Hashing</a>
+                    <a class="text-dark anim-link-2" href="{% url 'tdes'  %}">Online Triple DES Encrypt Decrypt</a>
                 </li>
                 <li class="list-group-item justify-content-between align-items-center">
                     <a class="text-dark anim-link-2" href="{% url 'des' %}">Online DES Encrypt
                         Decrypt</a>
                 </li>
                 <li class="list-group-item justify-content-between align-items-center">
-                    <a class="text-dark anim-link-2" href="online-tools/jasypt-online-encryption-decryption">Jasypt
-                        Online
+                    <a class="text-dark anim-link-2" href="{% url 'aes' %}">Online AES
                         Encrypt Decrypt</a>
                 </li>
-                <li class="list-group-item justify-content-between align-items-center">
-                    <a class="text-dark anim-link-2" href="online-tools/aes-encryption-decryption">AES Online Encrypt
-                        Decrypt</a>
-                </li>
 
-                <li class="list-group-item justify-content-between align-items-center">
-                    <a class="text-dark anim-link-2" href="online-tools/base64-encode-decode">Online
-                        Base64 Encoder Decoder</a>
-                </li>
-                <li class="list-group-item justify-content-between align-items-center">
-                    <a class="text-dark anim-link-2" href="online-tools/xml-json-xml-conversion">Online Xml to Json
-                        Converter</a>
-                </li>
             </ul>
 
         </div>

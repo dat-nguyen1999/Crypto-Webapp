@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
-                <a class="nav-link active" style="color: red;" href="{% url 'des' %}"><b>DES</b> </a>
+                <a class="nav-link" href="{% url 'des' %}">DES</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'tdes' %}">TDES </a>
@@ -24,7 +24,7 @@
             </li>
 
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'aes' %}">AES</a>
+                <a class="nav-link active" style="color: red;" href="{% url 'aes' %}"><b>AES</b> </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="/rsa">RSA</a>
@@ -41,37 +41,36 @@
     <div class="col-md-9 col-sm-12 col-12">
 
         <div class="row text-center">
-            <h1>DES Encryption and Decryption Online Tool(Calculator)</h1>
+            <h1>AES Encryption and Decryption Online Tool(Calculator)</h1>
         </div>
 
 
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <form action="{% url 'des_encrypt' %}" method="POST" name="encryptform" id="encryptform" role="form"
+                <form action="{% url 'aes_encrypt' %}" method="POST" name="encryptform" id="encryptform" role="form"
                     class="ng-pristine ng-valid" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h2>DES Online Encryption </h2>
+                    <h2>AES Online Encryption </h2>
                     <div class="form-group">
                         <label for="inputString">Choose the file to be encrypted:</label>
                         <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
                             name="fileInput" required="required">
+                        
+                        <label for="mode">Key option:</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="key_mode_en" name = "key_mode_en">
+                            <option value="Op1" selected="">The length of key is 16 bytes</option>
+                            <option value="Op2">The length of key is 24 bytes</option>
+                            <option value="Op3">The length of key is 32 bytes</option>
+                            
+                        </select>
+
                         <label for="inputString">Choose the key: </label>
                         <input class="form-control input-lg" id="filekey" type="file" file-model="file" name="filekey"
                             required="required">
                     </div>
 
-                    <!-- <div class="form-group">
-                        <label for="mode">Mode</label>
-                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
-                            id="mode" ng-change="encryptModeSelected()">
-                            <option value="ECB" selected="">ECB</option>
-                            <option value="CBC">CBC</option>
-                            <option value="CFB">CFB</option>
-                            <option value="OFB">OFB</option>
-
-                        </select>
-                    </div> -->
-
+                
                     <div class="form-group">
                         <label for="mode">Mode</label>
 
@@ -81,6 +80,7 @@
                             <option value="CBC">CBC</option>
                             <option value="CFB">CFB</option>
                             <option value="OFB">OFB</option>
+                            <option value="EAX">EAX</option>
 
                         </select>
                     </div>
@@ -111,16 +111,26 @@
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
 
-                <form action="{% url 'des_decrypt' %}" method="POST" role="form" class="ng-pristine ng-valid"
-                    enctype="multipart/form-data">
+                <form action="{% url 'aes_decrypt' %}" method="POST" role="form" class="ng-pristine ng-valid"
+                    enctype="multipart/form-data" id = "decryptform">
                     {% csrf_token %}
-                    <h2>DES Online Decryption </h2>
+                    <h2>AES Online Decryption </h2>
                     <div class="form-group">
                         <label for="inputString">Choose the file to be decrypted:</label>
-                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                        <input class="form-control input-lg" id="de_fileInput" type="file" file-model="file"
                             name="de_fileInput" required="required">
+                        
+                        <label for="mode">Key option:</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="key_mode_de" name = "key_mode_de">
+                            <option value="Op1" selected="">The length of key is 16 bytes</option>
+                            <option value="Op2">The length of key is 24 bytes</option>
+                            <option value="Op3">The length of key is 32 bytes</option>
+                            
+                        </select>
+                        
                         <label for="inputString">Choose the key: </label>
-                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                        <input class="form-control input-lg" id="de_filekey" type="file" file-model="file"
                             name="de_filekey" required="required">
                     </div>
 
@@ -132,39 +142,42 @@
                             <option value="CBC">CBC</option>
                             <option value="CFB">CFB</option>
                             <option value="OFB">OFB</option>
+                            <option value="EAX">EAX</option>
                         </select>
                     </div>
 
+                    <input type="hidden" id="de_dropdownip" name="de_dropdown" value="ECB">
 
-                    <div class="form-group ng-hide" ng-show="showDecryptIV">
+
+                    <div class="form-group" id="tag_deiv" >
                         <label for="decryptivinput" id="decryptivlabel">Enter IV Used During
                             Encryption(Optional)</label>
-                        <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="decryptivinput"
+                        <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="ivdecryptfile"
                             ng-model="decryptiv" name="ivdecryptfile" type="file" file-model="file" required="required" disabled>
                     </div>
 
 
-                    <input type="hidden" id="de_dropdownip" name="de_dropdown" value="ECB">
-
+                    
                     <script>
+                        $("#tag_deiv").hide();
                         $('#mode_decrypt').click(function (event) {
                             var value = $('#mode_decrypt').val();
                             $('#de_dropdownip').val(value);
                             if (value != "ECB"){
-                                $("#decryptivinput").prop( "disabled", false );
+                                $("#ivdecryptfile").prop( "disabled", false );
+                                $("#tag_deiv").show();
                             }
                         });
                     </script>
 
                     <div class="form-group">
                         <input class="btn btn-outline-primary" type="submit" value="Decrypt">
-                        <!-- <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
-                        </button> -->
+                        
                     </div>
+                    
                 </form>
             </div>
         </div>
-
 
 
 
@@ -253,10 +266,10 @@
                 </li>
                
                 <li class="list-group-item justify-content-between align-items-center">
-                    <a class="text-dark anim-link-2" href="{% url 'aes' %}">Online AES
+                    <a class="text-dark anim-link-2" href="{% url 'des' %}">Online DES
                         Encrypt Decrypt</a>
                 </li>
-                
+               
                 <li class="list-group-item justify-content-between align-items-center">
                     <a class="text-dark anim-link-2" href="{% url 'hash' %}"> Online HASH Tool</a>
                 </li>

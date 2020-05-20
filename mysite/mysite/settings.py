@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'polls',
     'homepage',
     'des',
-    'hash'
+    'hash',
+    'tdes',
+    'aes'
 
 ]
 

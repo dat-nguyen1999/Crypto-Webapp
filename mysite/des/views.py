@@ -5,6 +5,7 @@ import json
 from . import DES
 from .forms import UploadFileForm
 from django.utils.http import urlquote
+import gc
 # Create your views here.
 
 
@@ -39,6 +40,7 @@ def DES_Encryption(request):
     x = 'attachment; filename={}'.format("DES_Encrypted_Mode_" + mode + "_" + fileInput.name)
     #print(x)
     response['Content-Disposition'] = 'attachment; filename={}'.format("DES_Encrypted_Mode_" + mode + "_" + urlquote(fileInput.name))
+    gc.collect()
     return response
     #return render(request,'des/des.html', {'ciphertex': ciphertext})
 
@@ -71,12 +73,20 @@ def DES_DEcryption(request):
     #response['Content-Disposition'] = 'attachment; filename="dat.txt"'
 
     response['Content-Disposition'] = 'attachment; filename={}'.format("DES_Decrypted_" + urlquote(fileInput.name))
+    gc.collect()
     return response
     #return render(request,'des/des.html', {'ciphertex': ciphertext})
 
 
 def handle_uploaded_file(f):
     output = b''
-    for chunk in f.chunks():
-        output += chunk
+    # for chunk in f.chunks():
+    #     output += chunk
+    # return output
+    while True:
+        buf = f.read()
+        if buf: 
+            output += buf
+        else:
+            break
     return output

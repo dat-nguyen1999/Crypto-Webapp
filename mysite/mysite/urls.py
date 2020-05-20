@@ -23,4 +23,7 @@ urlpatterns = [
     path('', include('homepage.urls')),
     path('des/', include('des.urls')),
     path('hash/', include('hash.urls')),
+    path('tdes/', include('tdes.urls')),
+    path('aes/', include('aes.urls')),
+
 ]

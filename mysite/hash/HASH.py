@@ -11,8 +11,10 @@ def _Hash_Encryption(plaintext, key, algo):
         'SHA-512': SHA512,
         'SHA-384': SHA384
     }
-    h = HMAC.new(key, digestmod= d_algo[algo])
-    return h.update(plaintext).hexdigest()
+    #h = HMAC.new(key, digestmod= d_algo[algo])
+    h = d_algo[algo].new()
+    h.update(plaintext)
+    return h.hexdigest().upper()
 
 
 
