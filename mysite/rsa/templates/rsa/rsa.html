@@ -1,0 +1,304 @@
+{% extends "index.html" %}
+{% load static %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{%static './image/logo.jfif'%}" width="30" height="30" alt="">
+        Crypto
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'des' %}">DES </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'tdes' %}">TDES </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'hash' %}">HASH</a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'aes' %}">AES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" style="color: red;" href="{% url 'rsa' %}"><b>RSA</b> </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block container %}
+
+<div class="row gap-y">
+    <div class="col-md-9 col-sm-12 col-12">
+
+        <div class="row text-center" style="margin-bottom: 3%;">
+            <h1>Online RSA Encryption, Decryption And Key Generator Tool(Free)</h1>
+        </div>
+
+        <form action="{% url 'rsa' %}" method="POST" id="hashform" role="form" enctype="multipart/form-data"
+            style="max-width: 100%;">
+            {% csrf_token %}
+
+            <h3 class="text-center">Generate RSA Key Online </h3>
+
+            <div style="text-align: center;margin-left: 25%; margin-right: 25%; margin-bottom: 1%;">
+                <label for="mode">Select RSA Key Size:</label>
+
+                <select name="dropdown" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                    ng-model="mode_encrypt" id="mode_encrypt">
+                    <option value="1024" selected="">1024 bit</option>
+                    <option value="2048">2048 bit</option>
+                    <option value="3072">3072 bit</option>
+                </select>
+                <div class="form-group" style="margin-top: 2%;">
+                    <input class="btn btn-outline-primary" id="btn_Encrypt" type="submit" value="Encrypt">
+                </div>
+            </div>
+
+        </form>
+
+        <div class="row" style="margin-bottom: 1%;">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3 style="display: inline;">Public Key</h3>
+                <div class="text-right" style="display: inline">
+                    <button class="text-right" onclick="copyPublicKey()" style="display:inline-block">Copy</button>
+                </div>
+                <script>
+                    function copyPublicKey() {
+                        /* Get the text field */
+                        var copyText = document.getElementById("PublicKey");
+
+                        /* Select the text field */
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+                        /* Copy the text inside the text field */
+                        document.execCommand("copy");
+
+                        /* Alert the copied text */
+                        //alert("Copied the text: " + copyText.value);
+                    }
+                </script>
+
+                <textarea readonly id="PublicKey" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                    rows="4" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
+                <h3 style="display: inline;">Private Key</h3>
+                <div class="text-right" style="display: inline">
+                    <button class="text-right" id="PrivateKey" onclick="copyPrivateKey()"
+                        style="display:inline-block">Copy</button>
+                </div>
+                <script>
+                    function copyPrivateKey() {
+                        /* Get the text field */
+                        var copyText = document.getElementById("PrivateKey");
+
+                        /* Select the text field */
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+                        /* Copy the text inside the text field */
+                        document.execCommand("copy");
+
+                        /* Alert the copied text */
+                        //alert("Copied the text: " + copyText.value);
+                    }
+                </script>
+                <textarea readonly id="PrivateKey" class="form-control input-lg ng-pristine ng-untouched ng-valid"
+                    rows="4" placeholder="Result goes here" ng-model="encryptedOutput"></textarea>
+            </div>
+        </div>
+        <hr>
+
+
+
+        <h3 class="text-center">Generate RSA Key Online </h3>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form action="#">
+                    <h3>RSA Encryption</h3>
+                    <div class="form-group">
+                        <label for="inputString">Choose the file to be decrypted:</label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="de_fileInput" required="required">
+                        <label for="inputString">Choose the key: </label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="de_filekey" required="required">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mode">Mode</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="mode_decrypt" ng-change="encryptModeSelected()">
+                            <option value="ECB" selected="">ECB</option>
+                            <option value="CBC">CBC</option>
+                            <option value="CFB">CFB</option>
+                            <option value="OFB">OFB</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-outline-primary" type="submit" value="Decrypt">
+                        <!-- <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
+                        </button> -->
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 vertical-line">
+                <form action="#">
+                    <h3>RSA Decryption</h3>
+                    <div class="form-group">
+                        <label for="inputString">Choose the file to be decrypted:</label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="de_fileInput" required="required">
+                        <label for="inputString">Choose the key: </label>
+                        <input class="form-control input-lg" id="fileInput" type="file" file-model="file"
+                            name="de_filekey" required="required">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mode">Mode</label>
+                        <select class="form-control input-lg ng-pristine ng-untouched ng-valid" ng-model="mode"
+                            id="mode_decrypt" ng-change="encryptModeSelected()">
+                            <option value="ECB" selected="">ECB</option>
+                            <option value="CBC">CBC</option>
+                            <option value="CFB">CFB</option>
+                            <option value="OFB">OFB</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-outline-primary" type="submit" value="Decrypt">
+                        <!-- <button class="btn btn-primary" name="hash" value="hash" ng-click="decryptAes()">Decrypt
+                        </button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+        <div class="clearfix"></div>
+    </div>
+    <div class="col-md-3 col-sm-12 col-12 row-off">
+        <div class="mb-9">
+            <h3 class="h5 mb-4 text-primary">Other Free Tools</h3>
+            <ul class="list-group">
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="{% url 'des' %}">Online DES Encrypt Decrypt</a>
+                </li>
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="{% url 'tdes' %}">Online Triple DES Encrypt Decrypt</a>
+                </li>
+
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="{% url 'aes' %}">Online AES Encrypt Decrypt</a>
+                </li>
+
+                <li class="list-group-item justify-content-between align-items-center">
+                    <a class="text-dark anim-link-2" href="{% url 'hash' %}"> Online HASH Tool</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{% static './css/custom.css' %}">
+
+
+<script>
+
+
+    let encrypt = document.getElementById("mode_encrypt");
+
+    // Thêm sự kiện cho đối tượng
+    if (encrypt.value == "ECB") {
+        $("#labeloption").hide();
+        $("#inputoption").hide();
+    }
+
+    encrypt.addEventListener("change", function () {
+        if (encrypt.value == "ECB") {
+            $("#labeloption").hide();
+            $("#inputoption").hide();
+        }
+        else {
+            $("#labeloption").show();
+            $("#inputoption").show();
+        }
+
+    });
+</script>
+
+<script>
+    let decrypt = document.getElementById("mode_decrypt");
+
+    // Thêm sự kiện cho đối tượng
+    if (decrypt.value == "ECB") {
+        $("#decryptivinput").hide();
+        $("#decryptivlabel").hide();
+    }
+
+    decrypt.addEventListener("change", function () {
+        if (decrypt.value == "ECB") {
+            $("#decryptivinput").hide();
+            $("#decryptivlabel").hide();
+        }
+        else {
+            $("#decryptivinput").show();
+            $("#decryptivlabel").show();
+        }
+
+    });
+
+</script>
+
+<script>
+
+    function validateEncryptForm() {
+        var fileInput = document.forms["encryptform"]["fileInput"].value;
+        var filekey = document.forms["encryptform"]["filekey"].value;
+
+
+        if (fileInput == "") {
+            alert("InputFile fields missing.");
+            return false;
+        }
+        if (filekey == "") {
+            alert("KeyFile fields missing.");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
+
+
+
+
+
+{% endblock container %}

@@ -2,9 +2,9 @@
 {% load static %}
 {% block navbar %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">
+    <a class="navbar-brand" style="color: red;" href="{% url 'home' %}">
         <img src="{%static './image/logo.jfif'%}" width="30" height="30" alt="">
-        Crypto
+       <b>        Crypto       </b>  
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,7 +26,7 @@
                 <a class="nav-link" href="{% url 'aes' %}">AES</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="/rsa">RSA</a>
+                <a class="nav-link " href="{% url 'rsa' %}">RSA</a>
             </li>
         </ul>
 
@@ -34,13 +34,60 @@
 </nav>
 {% endblock navbar %}
 
-{% block content %}
-
-<div class="container-fluid">
-    <h3>Basic Navbar Example</h3>
-    <p>A navigation bar is a navigation header that is placed at the top of the page.</p>
-    <p>The navbar-expand-xl|lg|md|sm class determines when the navbar should stack vertically (on extra large,
-        large, medium or small screens).</p>
+{% block container %}
+<div class="cbp-item graphic post-padding shadow-sm rounded event-top-border-primary">
+    <div class="clearfix"></div>
+    <div class="post-img-left">
+        <a href="{% url 'rsa' %}" >
+            <img ng-src="https://destatic.blob.core.windows.net/images/rsa-logo.png" alt="Online RSA Encryption, Decryption And Key Generator Tool(Free)" src="https://destatic.blob.core.windows.net/images/rsa-logo.png">
+            <h5 class="ng-binding">Online RSA Encryption, Decryption And Key Generator Tool(Free)</h5>
+            <p class="fs-15 ng-binding">RSA(Rivest-Shamir-Adleman) is an Asymmetric encryption technique that uses two different keys as public and private keys to perform the encryption and decryption. With RSA, you can encrypt sensitive information with a public key and a matching private key is used to decrypt the encrypted message. Asymmetric encryption is mostly used when there are 2 different endpoints are involved such as VPN client and server, SSH, etc.</p>
+        </a>
+    </div>
+    <div class="clearfix"></div>
 </div>
 
-{% endblock content %}
+<div class="cbp-item graphic post-padding shadow-sm rounded event-top-border-primary">
+    <div class="post-img-left">
+        <a  href="{% url 'aes' %}" >
+            <img ng-src="https://destatic.blob.core.windows.net/images/aes-logo.png" alt="Online Tool for AES Encryption and Decryption" src="https://destatic.blob.core.windows.net/images/aes-logo.png">
+            <h5 class="ng-binding">Online Tool for AES Encryption and Decryption</h5>
+            <p class="fs-15 ng-binding">Advanced Encryption Standard(AES) is a symmetric encryption algorithm. AES is the industry standard as of now as it allows 128 bit, 192 bit and 256 bit encryption. Symmetric encryption is very fast as compared to asymmetric encryption and are used in systems such as database system. Following is an online tool to generate AES encrypted password and decrypt AES encrypted password. It provides five mode of encryption and decryption ECB, CBC, CFB, OFB, EAX mode. For more info on AES encryption visit this explanation on AES Encryption.</p>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="cbp-item graphic post-padding shadow-sm rounded event-top-border-primary">
+    <div class="post-img-left">
+        <a href="{% url 'tdes' %}" >
+            <img ng-src="https://destatic.blob.core.windows.net/images/3des-logo.jpg" alt="Online Tool for Triple DES Encryption and Decryption" src="https://destatic.blob.core.windows.net/images/3des-logo.jpg">
+            <h5 class="ng-binding">Online Tool for Triple DES Encryption and Decryption</h5>
+            <p class="fs-15 ng-binding">Triple DES, a symmetric-key algorithm for the encryption of electronic data, is the successor of DES(Data Encryption Standard) and provides more secure encryption then DES. The Triple DES breaks the user-provided key into three subkeys as k1, k2, and k3. A message is encrypted with k1 first, then decrypted with k2 and encrypted again with k3. The Triple DES key size is 16 bytes or 24 bytes and blocks size 64 bit. There are 4 modes of operation - ECB, CBC, CFB, OFB.</p>
+        </a>
+    </div>
+</div>
+
+<div class="cbp-item graphic post-padding shadow-sm rounded event-top-border-primary">
+    <div class="post-img-left">
+        <a href="{% url 'hash' %}">
+            <img src="{%static './image/hash.png'%}"  alt="Free Hash Online Generator Tool">
+            <h5 class="ng-binding">Free Check Intergrity Online Tool</h5>
+            <p class="fs-15 ng-binding">A hash value is a numeric value of a fixed length that uniquely identifies data. Hash values represent large amounts of data as much smaller numeric values, so they are used with digital signatures. You can sign a hash value more efficiently than signing the larger value. Hash values are also useful for verifying the integrity of data sent through insecure channels. The hash value of received data can be compared to the hash value of data as it was sent to determine whether the data was altered. For example SHA-256, SHA-512, SHA-384, MD2, MD4, MD5. </p>
+        </a>
+    </div>
+</div>
+
+<div class="cbp-item graphic post-padding shadow-sm rounded event-top-border-primary">
+    <div class="post-img-left">
+        <a href="{% url 'des' %}">
+            <img src="{%static './image/des.png'%}" alt="Free Hash Online Generator Tool">
+            <h5 class="ng-binding">Online Tool for DES Encryption and Decryption</h5>
+            <p class="fs-15 ng-binding"> Data Encryption Standard (DES) is a block cipher algorithm that takes plain text in blocks of 64 bits and converts them to ciphertext using keys of 48 bits. It is a symmetric key algorithm, which means that the same key is used for encrypting and decrypting ​data.
+                There are 4 modes of operation - ECB, CBC, CFB, OFB.
+            </p>
+        </a>
+    </div>
+</div>
+
+{% endblock container %}
