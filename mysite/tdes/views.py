@@ -59,8 +59,8 @@ def TDES_Encryption(request):
             gc.collect()
             return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
             
-        print(ciphertext)
-        print(len(ciphertext))
+        #print(ciphertext)
+        #print(len(ciphertext))
     
     response  = HttpResponse(ciphertext)
     #response['Content-Disposition'] = 'attachment; filename="dat.txt"'
@@ -110,7 +110,7 @@ def TDES_Decryption(request):
             IV = None
         
         ciphertext = handle_uploaded_file(fileInput)
-        print(len(ciphertext))
+        #print(len(ciphertext))
 
         plaintext = TDES._TDES_Decryption(key,ciphertext,mode,IV)
         if not isinstance(plaintext, bytes):
