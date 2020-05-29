@@ -15,22 +15,32 @@ def encrypt(key_in,plt):
     while True:
         try:
             key = RSA.import_key(key_in)
+            cipher = PKCS1_v1_5.new(key)
+   
+            ciphertext = cipher.encrypt(plt)
             break
         except ValueError as VE:
             return 'Caught this error: ' + repr(VE)
-    cipher = PKCS1_v1_5.new(key)
+        except TypeError as TE:
+            return 'Caught this error: ' + repr(TE)
+    # cipher = PKCS1_v1_5.new(key)
    
-    ciphertext = cipher.encrypt(plt)
+    # ciphertext = cipher.encrypt(plt)
     return ciphertext
 
 def decrypt(key_in,cpt ):
     while True:
         try:
             key = RSA.import_key(key_in)
+            cipher = PKCS1_v1_5.new(key)
+   
+            plaintext = cipher.decrypt(cpt, "ERROR_DE!")
             break
         except ValueError as VE:
             return 'Caught this error: ' + repr(VE)
-    cipher = PKCS1_v1_5.new(key)
+        except TypeError as TE:
+            return 'Caught this error: ' + repr(TE)
+    # cipher = PKCS1_v1_5.new(key)
    
-    plaintext = cipher.decrypt(cpt, "ERROR_DE!")
+    # plaintext = cipher.decrypt(cpt, "ERROR_DE!")
     return plaintext

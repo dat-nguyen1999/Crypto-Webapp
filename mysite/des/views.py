@@ -43,6 +43,7 @@ def DES_Encryption(request):
     gc.collect()
     return response
     #return render(request,'des/des.html', {'ciphertex': ciphertext})
+    
 
 def DES_DEcryption(request):
 

@@ -1,0 +1,57 @@
+{% extends "index.html" %}
+{% load static %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color: red;" href="{% url 'home' %}">
+        <img src="{%static './image/logo.jfif'%}" width="30" height="30" alt="">
+       <b>        Crypto       </b>  
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'des' %}">DES </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'tdes' %}">TDES </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'hash' %}">HASH</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'aes' %}">AES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'rsa' %}">RSA</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{% endblock navbar %}
+
+
+{% block container %}
+
+<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>Oops!</h1>
+			</div>
+			<h2>404 - Page not found</h2>
+			<p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
+			
+            <a href="{% url 'home' %}" class="btn btn-danger">Go To Homepage</a>
+		</div>
+	</div>
+
+
+<!-- Google font -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
+<link rel="stylesheet" href="{% static './css/style.css' %}">
+<script src="{% static './js/style.js' %}"></script>
+{% endblock container %}
