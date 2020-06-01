@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse, FileResponse
 from django.core.files.storage import FileSystemStorage
 import json
-from . import RSA
+from . import _RSA
 from django.utils.http import urlquote
 import gc
 from io import BytesIO
 from zipfile import ZipFile
+from Crypto.PublicKey import RSA
+from Crypto.Util.number import size, ceil_div
 # Create your views here.
 
 
@@ -17,7 +19,7 @@ def generateKey(request):
     
     if request.method == 'POST':
         key_length = int(request.POST['dropdown'])
-        d_key = RSA.generateKeyPair(key_length)
+        d_key = _RSA.generateKeyPair(key_length)
         
         in_memory = BytesIO()
         zip = ZipFile(in_memory, "a")
@@ -51,14 +53,18 @@ def encrypt(request):
 
         plt = handle_uploaded_file(fileInput)
 
+        _key = RSA.import_key(key)
+        modBits = size(_key.n)
+        k = ceil_div(modBits,8) # Convert from bits to bytes
         print(len(plt))
-        if len(plt) > 245:
+        if len(plt) > k - 11 :
             context = {
-                    'reason': "The length of file must be less than 245 bytes!!"
-                }
+                        'reason': "The length of file must be less than " + k - 11 + " bytes!!"
+                    }
             return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
+        
 
-        ciphertxt = RSA.encrypt(key, plt)
+        ciphertxt = _RSA.encrypt(key, plt)
 
         if not isinstance(ciphertxt,bytes):
             context = {
@@ -83,14 +89,19 @@ def decrypt(request):
         key = handle_uploaded_file(filekey)
 
         cpt = handle_uploaded_file(fileInput)
+
+        _key = RSA.import_key(key)
+        modBits = size(_key.n)
+        k = ceil_div(modBits,8) # Convert from bits to bytes
         print(len(cpt))
-        if len(cpt) > 256:
+
+        if len(cpt) != k :
             context = {
-                    'reason': "The length of file must be less than 245 bytes!!"
-                }
+                        'reason': "The length of file is different the length of key!!"
+                    }
             return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
         
-        plaintext = RSA.decrypt(key, cpt)
+        plaintext = _RSA.decrypt(key, cpt)
 
         if not isinstance(plaintext,bytes):
             context = {

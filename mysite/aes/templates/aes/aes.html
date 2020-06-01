@@ -97,7 +97,7 @@
                     </script>
 
                     <div id="ivtag" class="form-group ng-hide" ng-show="mode_encrypt == 'ECB'"  >
-                        <label for="encryptivinput" id="labeloption">Choose IV File (Optional):</label>
+                        <label for="encryptivinput" id="labeloption">Choose iv/nonce File (Optional):</label>
                         <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="inputoption"
                             ng-model="encryptiv" name="ivencryptfile" type="file" file-model="file" required="required" disabled >
                     </div>
@@ -150,7 +150,7 @@
 
 
                     <div class="form-group" id="tag_deiv" >
-                        <label for="decryptivinput" id="decryptivlabel">Enter IV Used During
+                        <label for="decryptivinput" id="decryptivlabel">Choose iv/nonce file Used During
                             Encryption(Optional)</label>
                         <input class="form-control input-lg ng-pristine ng-untouched ng-valid" id="ivdecryptfile"
                             ng-model="decryptiv" name="ivdecryptfile" type="file" file-model="file" required="required" disabled>
