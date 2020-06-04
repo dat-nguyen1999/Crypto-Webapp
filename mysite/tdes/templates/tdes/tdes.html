@@ -85,15 +85,7 @@
                     </div>
 
                     <input type="hidden" id="dropdownip" name="dropdown" value="ECB">
-                    <script>
-                        $('#mode_encrypt').click(function (event) {
-                            var value = $('#mode_encrypt').val();
-                            $('#dropdownip').val(value);
-                            if (value != "ECB"){
-                                $("#inputoption").prop( "disabled", false );
-                            }
-                        });
-                    </script>
+                    
 
                     <div id="ivtag" class="form-group ng-hide" ng-show="mode_encrypt == 'ECB'"  >
                         <label for="encryptivinput" id="labeloption">Choose IV File (Optional):</label>
@@ -101,6 +93,30 @@
                             ng-model="encryptiv" name="ivencryptfile" type="file" file-model="file" required="required" disabled >
                     </div>
 
+                    <script>
+                         $('#mode_encrypt').ready(function (event) {
+                            var value = $('#mode_encrypt').val();
+                            $('#dropdownip').val(value);
+                            //console.log(value)
+                            if (value != "ECB"){
+                                console.log("false");
+                                $("#inputoption").show();
+                                $("#inputoption").prop( "disabled", false );
+                            }
+                            else{
+                                //console.log("true");
+                                $("#inputoption").prop( "disabled", true );
+                            }
+
+                            $('#mode_encrypt').change(function (event) {
+                                var value = $('#mode_encrypt').val();
+                                $('#dropdownip').val(value);
+                                if (value != "ECB"){
+                                    $("#inputoption").prop( "disabled", false );
+                                }
+                            });
+                         });
+                    </script>
                    <div class="form-group">
                         <input class="btn btn-outline-primary" type="submit" value="Encrypt">
                      
@@ -157,13 +173,21 @@
                     
                     <script>
                         $("#tag_deiv").hide();
-                        $('#mode_decrypt').click(function (event) {
+                        $('#mode_decrypt').ready(function (event) {
                             var value = $('#mode_decrypt').val();
-                            $('#de_dropdownip').val(value);
-                            if (value != "ECB"){
-                                $("#ivdecryptfile").prop( "disabled", false );
-                                $("#tag_deiv").show();
-                            }
+                                $('#de_dropdownip').val(value);
+                                if (value != "ECB"){
+                                    $("#ivdecryptfile").prop( "disabled", false );
+                                    $("#tag_deiv").show();
+                                }
+                            $('#mode_decrypt').click(function (event) {
+                                var value = $('#mode_decrypt').val();
+                                $('#de_dropdownip').val(value);
+                                if (value != "ECB"){
+                                    $("#ivdecryptfile").prop( "disabled", false );
+                                    $("#tag_deiv").show();
+                                }
+                            });
                         });
                     </script>
 

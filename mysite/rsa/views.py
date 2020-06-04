@@ -59,10 +59,10 @@ def encrypt(request):
         print(len(plt))
         if len(plt) > k - 11 :
             context = {
-                        'reason': "The length of file must be less than " + k - 11 + " bytes!!"
+                        'reason': "The length of file must be less than " + str(k - 11) + " bytes!!"
                     }
-            return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
-        
+            return HttpResponse(json.dumps(context) , content_type='application/json')
+
 
         ciphertxt = _RSA.encrypt(key, plt)
 
@@ -70,7 +70,7 @@ def encrypt(request):
             context = {
                     'reason': ciphertxt.split("Caught this error: ")
                 }
-            return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
+            return HttpResponse(json.dumps(context) , content_type='application/json')
         
         response  = HttpResponse(ciphertxt)
         #response['Content-Disposition'] = 'attachment; filename="dat.txt"'
@@ -99,7 +99,7 @@ def decrypt(request):
             context = {
                         'reason': "The length of file is different the length of key!!"
                     }
-            return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
+            return HttpResponse(json.dumps(context) , content_type='application/json')
         
         plaintext = _RSA.decrypt(key, cpt)
 
@@ -107,7 +107,7 @@ def decrypt(request):
             context = {
                     'reason': plaintext.split("Caught this error: ")
                 }
-            return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')
+            return HttpResponse(json.dumps(context) , content_type='application/json')
         
         response  = HttpResponse(plaintext)
         #response['Content-Disposition'] = 'attachment; filename="dat.txt"'

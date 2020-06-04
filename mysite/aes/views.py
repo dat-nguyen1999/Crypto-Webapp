@@ -53,7 +53,7 @@ def AES_Encryption(request):
             
             if mode in ["CBC", "CFB", "OFB"]:
                 if len(IV) != 16:
-                    context = {
+                    context = {'reason': 'For ' + mode + ': Length of IV must be 16 bytes!!!'
                     }
                     gc.collect()
                     return HttpResponse(json.dumps(context) ,status = 400, content_type='application/json')

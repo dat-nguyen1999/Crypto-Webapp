@@ -87,12 +87,22 @@
 
                     <input type="hidden" id="dropdownip" name="dropdown" value="ECB">
                     <script>
-                        $('#mode_encrypt').click(function (event) {
+                        $('#mode_encrypt').ready(function (event) {
                             var value = $('#mode_encrypt').val();
-                            $('#dropdownip').val(value);
-                            if (value != "ECB"){
-                                $("#inputoption").prop( "disabled", false );
-                            }
+                                $('#dropdownip').val(value);
+                                if (value != "ECB"){
+                                    $("#inputoption").prop( "disabled", false );
+                                    $("#inputoption").show();
+
+                                }
+                            $('#mode_encrypt').click(function (event) {
+                                var value = $('#mode_encrypt').val();
+                                $('#dropdownip').val(value);
+                                if (value != "ECB"){
+                                    $("#inputoption").prop( "disabled", false );
+                                    $("#inputoption").show();
+                                }
+                            });
                         });
                     </script>
 
@@ -160,13 +170,22 @@
                     
                     <script>
                         $("#tag_deiv").hide();
-                        $('#mode_decrypt').click(function (event) {
+                        $('#mode_decrypt').ready(function (event) {
                             var value = $('#mode_decrypt').val();
                             $('#de_dropdownip').val(value);
                             if (value != "ECB"){
                                 $("#ivdecryptfile").prop( "disabled", false );
                                 $("#tag_deiv").show();
                             }
+
+                            $('#mode_decrypt').click(function (event) {
+                                var value = $('#mode_decrypt').val();
+                                $('#de_dropdownip').val(value);
+                                if (value != "ECB"){
+                                    $("#ivdecryptfile").prop( "disabled", false );
+                                    $("#tag_deiv").show();
+                                }
+                            });
                         });
                     </script>
 
